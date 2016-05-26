@@ -43,18 +43,16 @@ class InvitationManager
 		return true;
 	}
 	/**
-	*
-	*0 for other kinds
-	*1 for modify place
-	*2 for modify time
-	*-1 for cancel
-	*
+	* create
+	* change_place
+	* change_time
+	* 
 	*/
 	function addMessage($IID, $UID, $create_time, $type, $content, $con = NULL)
 	{
 		if(!$IID || !$UID)
 			return false;
-		$sql_str = "INSERT INTO message (MID,IID,UID,create_time,type,content) VALUES(?,?,?,?,?,?)";
+		$sql_str = "INSERT INTO message (IID,UID,create_time,type,content) VALUES(?,?,?,?,?)";
 		$external_con = true;
 		if(!$con){
 			$db_manager = new DBManager();
@@ -124,6 +122,64 @@ class InvitationManager
 		$con->close();
 
 		return $db_manager->getRowsArray($result);
+	}
+	/**
+	* update
+	*/
+	function updatePlace($IID,$username,$place_name,$coordinate)
+	{
+		if(!$IID || !$place_name || !$coordinate || !$username){
+			return false;
+		}
+		$db_manager = new DBManager();
+		$con = $db_manager->connect();
+		$sql_str = "UPDATE invitation SET place_name = ?, coordinate = ? WHERE IID = ?";
+		$stmt = $con->prepare($sql_str);
+		$stmt->bind_param("sss", $place_name, $coordinate, $IID);
+		$stmt->execute();
+		$stmt->close();
+
+		date_default_timezone_set("Asia/Shanghai");
+		$create_time = date("Y-m-d h:i:s");
+		$this->addMessage($IID,$username, $create_time, "change_place",$place_name,$con);
+		$con->close();
+	}
+
+	function updateTime($IID,$username,$time){
+		if(!$IID || !$time || !$username){
+			return false;
+		}
+		$db_manager = new DBManager();
+		$con = $db_manager->connect();
+		$sql_str = "UPDATE invitation SET invite_time = ? WHERE IID = ?";
+		$stmt = $con->prepare($sql_str);
+		$stmt->bind_param("ss", $time, $IID);
+		$stmt->execute();
+		$stmt->close();
+
+		date_default_timezone_set("Asia/Shanghai");
+		$create_time = date("Y-m-d h:i:s");
+		$this->addMessage($IID,$username, $create_time, "change_time",$time,$con);
+		$con->close();
+	}
+
+	function updateComment($IID,$username,$comment)
+	{
+		if(!$IID || !$comment || !$username){
+			return false;
+		}
+		$db_manager = new DBManager();
+		$con = $db_manager->connect();
+		$sql_str = "UPDATE invitation SET comment = ? WHERE IID = ?";
+		$stmt = $con->prepare($sql_str);
+		$stmt->bind_param("ss", $comment, $IID);
+		$stmt->execute();
+		$stmt->close();
+
+		date_default_timezone_set("Asia/Shanghai");
+		$create_time = date("Y-m-d h:i:s");
+		$this->addMessage($IID,$username, $create_time, "change_comment",$comment,$con);
+		$con->close();
 	}
 }
 ?>

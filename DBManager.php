@@ -6,11 +6,13 @@ class DBManager{
 	function connect() { 
 		// Create connection
 		$conn = new mysqli(MyDBStrings::$db_servername , MyDBStrings::$db_username, MyDBStrings::$db_password, self::$db_name, 3306);
-
 		// Check connection
 		if ($conn->connect_error){
 		    die("Connection failed: " . $conn->connect_error);
-		} 
+		}
+		echo $conn->character_set_name();
+		$conn->set_charset("UTF8");
+		echo "after" . $conn->character_set_name();
 		return $conn;
 	}
 
