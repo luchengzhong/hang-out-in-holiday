@@ -54,7 +54,7 @@ class InvitationManager
 			return false;
 		$sql_str = "INSERT INTO message (IID,UID,create_time,type,content) VALUES(?,?,?,?,?); UPDATE invitation SET update_time = ? WHERE IID = ?;";
 		$external_con = true;
-		if(!isset($con){
+		if(!isset($con)){
 			$db_manager = new DBManager();
 			$con = $db_manager->connect();
 			$external_con=false;
@@ -99,8 +99,9 @@ class InvitationManager
 		}
 		$stmt->close();
 		$con->close();
-
-		return $resultArray;
+		$json = array();
+		$json["invitations"] = $resultArray;
+		return $json;
 	}
 
 	function getMessages($IID,$create_time)
@@ -125,7 +126,9 @@ class InvitationManager
 		$stmt->close();
 		$con->close();
 
-		return $db_manager->getRowsArray($result);
+		$json = array();
+		$json["messages"] = $db_manager->getRowsArray($result);
+		return $json;
 	}
 	/**
 	* update
@@ -188,4 +191,5 @@ class InvitationManager
 		$con->close();
 		return true;
 	}
+}
 ?>
