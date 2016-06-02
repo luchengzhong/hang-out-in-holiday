@@ -72,8 +72,10 @@ class InvitationManager
 	//GET
 	function getInvitations($username,$date)
 	{
+		$json = array();
 		if(!isset($username)){
-			return null;
+			$json["invitations"] = null;
+			return $json;
 		}
 		if(!isset($date)){
 			$date = "1970-01-01 00:00:00";
@@ -99,15 +101,17 @@ class InvitationManager
 		}
 		$stmt->close();
 		$con->close();
-		$json = array();
+
 		$json["invitations"] = $resultArray;
 		return $json;
 	}
 
 	function getMessages($IID,$create_time)
 	{
+		$json = array();
 		if(!isset($IID)){
-			return null;
+			$json["messages"] = null;
+			return $json;
 		}
 		$db_manager = new DBManager();
 		$con = $db_manager->connect();
@@ -126,7 +130,7 @@ class InvitationManager
 		$stmt->close();
 		$con->close();
 
-		$json = array();
+		
 		$json["messages"] = $db_manager->getRowsArray($result);
 		return $json;
 	}
