@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-    <meta Content-Type="application/json">
-</head>
-<body>
 <?php
+header("Content-Type: application/json;charset=utf-8");
 require_once("DBManagers/DBManager.php");
 require_once("DBManagers/UserInfoManager.php");
 require_once("DBManagers/InvitationManager.php");
 require_once("DBManagers/FriendsManager.php");
-echo "i'mlucheng\n";
+//echo "i'mlucheng\n";
 /*
 $db_manager = new DBManager();
 $str = "select * from user_info";
@@ -39,17 +33,16 @@ if ($result->num_rows > 0) {
 	}
 }*/
 
-//$im = new InvitationManager();
-//echo json_encode($im->getInvitations("luchengzhong",null));
+$im = new InvitationManager();
+echo json_encode($im->getInvitations("luchengzhong",null));
 //$im->addInvitation("luchengzhong","2016-05-26 16:40:00",null);
 //$im->updateTime(3,'gouge',"2016-05-27 11:06:40");
 //$im->updateComment(3,'gouge',"去不去啊");
 //$im->updatePlace(3,'gouge',"临平",'65.1234;66.7413');
 
-$fm = new FriendsManager();
+/*$fm = new FriendsManager();
         $result = $fm->getFriends("luchengzhong",null);
 
-        echo json_encode($result);
+        echo json_encode($result);*/
 ?>
-</body> 
-</html>
+

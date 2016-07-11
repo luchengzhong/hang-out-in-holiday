@@ -22,7 +22,7 @@ class InvitationController
 			$result = $im->getMessages($data["IID"],$data["create_time"]);
 		}else if(strcmp($data["request_type"],"addInvitation") == 0){
 			$result = array();
-			$result["result"] = $im->addInvitation($data["username"],$data["invite_time"],$data["invited_array"],$data["place_name"],$data["coordinate"],$data["comment"]);
+			$result["result"] = $im->addInvitation($data["username"],$data["invite_time"],$data["invited_array"],$data["type"],$data["pay_method"],$data["place_name"],$data["coordinate"],$data["comment"]);
 		}else if(strcmp($data["request_type"],"addMessage") == 0){
 			$result = array();
 			$result["result"] = $im->addInvitation($data["username"],$data["invite_time"],$data["invited_array"],$data["place_name"],$data["coordinate"],$data["comment"]);

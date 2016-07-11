@@ -6,7 +6,7 @@ require_once("DBManager.php");
 class InvitationManager
 {
 	//Insert
-	function addInvitation($username, $invite_time, $invited_array, $place_name= "", $coordinate= "", $comment= "")
+	function addInvitation($username, $invite_time, $invited_array,$i_type, $pay_method, $place_name= "", $coordinate= "", $comment= "")
 	{
 		if(!isset($username) || !isset($invite_time) || !isset($invited_array))
 			return false;
@@ -16,14 +16,14 @@ class InvitationManager
 			$coordinate = "";
 		if(!isset($comment))
 			$comment = "";
-		$sql_str = "INSERT INTO invitation (create_time,invite_time,coordinate,place_name,inviter_id,comment,update_time) VALUES(?,?,?,?,?,?,?);";
+		$sql_str = "INSERT INTO invitation (create_time,invite_time,coordinate,place_name,inviter_id,comment,update_time,type,pay_method) VALUES(?,?,?,?,?,?,?);";
 		date_default_timezone_set("Asia/Shanghai");
 		$create_time = date("Y-m-d h:i:s");
 
 		$db_manager = new DBManager();
 		$con = $db_manager->connect();
 		$stmt = $con->prepare($sql_str);
-		$stmt->bind_param("sssssss", $create_time, $invite_time, $coordinate, $place_name, $username, $comment, $create_time);
+		$stmt->bind_param("sssssssss", $create_time, $invite_time, $coordinate, $place_name, $username, $comment, $create_time, $i_type, $pay_method);
 		$stmt->execute();
 
 		$IID = $stmt->insert_id;
@@ -46,7 +46,7 @@ class InvitationManager
 	* create
 	* change_place
 	* change_time
-	* 
+	* change_comment
 	*/
 	function addMessage($IID, $UID, $create_time, $type, $content, $con = NULL)
 	{
@@ -70,6 +70,7 @@ class InvitationManager
 	}
 
 	//GET
+	//status: created, all accepted, canceled
 	function getInvitations($username,$date)
 	{
 		$json = array();
@@ -82,7 +83,7 @@ class InvitationManager
 		}
 		$db_manager = new DBManager();
 		$con = $db_manager->connect();
-		$stmt = $con->prepare("SELECT invitation.* FROM invitation,invited_user where invitation.IID = invited_user.IID and (invitation.inviter_id = ? or invited_user.UID = ?) and invitation.update_time > ?;");
+		$stmt = $con->prepare("SELECT invitation.* FROM invitation,invited_user where invitation.IID = invited_user.IID and (invitation.inviter_id = ? or invited_user.UID = ?) and invitation.update_time > ? order by invitation.update_time DESC;");
 		$stmt->bind_param("sss", $username, $username, $date);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -117,7 +118,8 @@ class InvitationManager
 		$con = $db_manager->connect();
 		$sql_str = "SELECT * FROM message where IID = ?";
 		if(isset($create_time))
-			$sql_str = $sql_str . "and create_time > ?";
+			$sql_str = $sql_str . " and create_time > ?";
+		$sql_str = $sql_str . " order by create_time DESC";
 		$stmt = $con->prepare($sql_str);
 		if(isset($create_time))
 			$stmt->bind_param("ss", $IID, $create_time);
