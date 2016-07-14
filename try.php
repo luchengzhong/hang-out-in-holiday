@@ -34,9 +34,11 @@ if ($result->num_rows > 0) {
 }*/
 
 $im = new InvitationManager();
-echo json_encode($im->getInvitations("luchengzhong",null));
-//$im->addInvitation("luchengzhong","2016-05-26 16:40:00",null);
+//echo json_encode($im->addInvitation("luchengzhong",null));
+//$mem = array("gouge", "habinan");
+//echo json_encode($im->addInvitation("luchengzhong","2016-05-26 16:40:00",$mem,"桌游","A-A","丁哥黑鱼馆","","费用全包"));
 //$im->updateTime(3,'gouge',"2016-05-27 11:06:40");
+echo json_encode($im->getMessages(3,"1970-01-01 00:00:00"));
 //$im->updateComment(3,'gouge',"去不去啊");
 //$im->updatePlace(3,'gouge',"临平",'65.1234;66.7413');
 

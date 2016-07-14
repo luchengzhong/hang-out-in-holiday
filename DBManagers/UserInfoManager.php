@@ -5,8 +5,8 @@ class UserInfoManager{
 		if(!$username || !$password || !$name || !$photo){
 			return false;
 		}
-		date_default_timezone_set('GMT+2');
-		$date_time = date("Y-m-d h:i:s");
+		date_default_timezone_set('Europe/Stockholm');
+		$create_time = date("Y-m-d H:i:s");
 
 		$db_manager = new DBManager();
 		$con = $db_manager->connect();

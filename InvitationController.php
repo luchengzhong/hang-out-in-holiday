@@ -24,8 +24,10 @@ class InvitationController
 			$result = array();
 			$result["result"] = $im->addInvitation($data["username"],$data["invite_time"],$data["invited_array"],$data["type"],$data["pay_method"],$data["place_name"],$data["coordinate"],$data["comment"]);
 		}else if(strcmp($data["request_type"],"addMessage") == 0){
+			$result = $im->addMessage($data["IID"],$data["username"],$data["create_time"],"user_comment",$data["content"]);
+		}else if(strcmp($data["request_type"],"updateStatus") == 0){
 			$result = array();
-			$result["result"] = $im->addInvitation($data["username"],$data["invite_time"],$data["invited_array"],$data["place_name"],$data["coordinate"],$data["comment"]);
+			$result["status"] = $im->updateStatus($data["IID"],$data["username"],$data["status"]);
 		}
 		if($result == NULL){
 			$result = array();

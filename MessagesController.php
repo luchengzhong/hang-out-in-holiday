@@ -13,7 +13,7 @@ class MessageController
 		$data = json_decode(file_get_contents('php://input'), true);
 		$im = new InvitationManager();
 		//$result = $fm->getFriends($data["username"],$data["date"]);
-		$result = $im->getMessages($data["IID"],null);
+		$result = $im->getMessages($data["IID"],$data["date"]);
 		echo json_encode($result);
 	}
 }
