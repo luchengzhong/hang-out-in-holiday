@@ -10,9 +10,7 @@ class DBManager{
 		if ($conn->connect_error){
 		    die("Connection failed: " . $conn->connect_error);
 		}
-		echo $conn->character_set_name();
 		$conn->set_charset("UTF8");
-		echo "after" . $conn->character_set_name();
 		return $conn;
 	}
 

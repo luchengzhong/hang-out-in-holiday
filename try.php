@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-</head>
-<body>
 <?php
-require_once("DBManager.php");
-require_once("UserInfoManager.php");
-require_once("InvitationManager.php");
-echo "i'mlucheng\n";
+header("Content-Type: application/json;charset=utf-8");
+require_once("DBManagers/DBManager.php");
+require_once("DBManagers/UserInfoManager.php");
+require_once("DBManagers/InvitationManager.php");
+require_once("DBManagers/FriendsManager.php");
+//echo "i'mlucheng\n";
+>>>>>>> a2e30ae9ddee13b9a55e3298a11f21496e025c19
 /*
 $db_manager = new DBManager();
 $str = "select * from user_info";
@@ -38,11 +35,18 @@ if ($result->num_rows > 0) {
 }*/
 
 $im = new InvitationManager();
-//echo json_encode($im->getInvitations("luchengzhong","asd"));
-//$im->addInvitation("luchengzhong","2016-05-26 16:40:00",null);
+
+//echo json_encode($im->addInvitation("luchengzhong",null));
+//$mem = array("gouge", "habinan");
+//echo json_encode($im->addInvitation("luchengzhong","2016-05-26 16:40:00",$mem,"桌游","A-A","丁哥黑鱼馆","","费用全包"));
 //$im->updateTime(3,'gouge',"2016-05-27 11:06:40");
-$im->updateComment(3,'gouge',"去不去啊");
+echo json_encode($im->getMessages(3,"1970-01-01 00:00:00"));
+//$im->updateComment(3,'gouge',"去不去啊");
 //$im->updatePlace(3,'gouge',"临平",'65.1234;66.7413');
+
+/*$fm = new FriendsManager();
+        $result = $fm->getFriends("luchengzhong",null);
+
+        echo json_encode($result);*/
 ?>
-</body> 
-</html>
+
